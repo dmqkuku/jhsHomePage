@@ -1,9 +1,6 @@
-package com.home.jhshome.app.user;
+package com.home.jhshome.app.data.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class UserDTO {
@@ -12,9 +9,12 @@ public class UserDTO {
     //물론 조인 걸다가 값이 null로 떨어질 수도 있다.
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int uid;
+    @Column(name = "UID", nullable = false, unique = true)
+    private Integer uid;
 
+    @Column(name = "NAME")
     private String name;
+    @Column(name = "PWD")
     private String pwd;
 
     public int getUid() {
