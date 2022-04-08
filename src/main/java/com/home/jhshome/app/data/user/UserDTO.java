@@ -3,6 +3,7 @@ package com.home.jhshome.app.data.user;
 import javax.persistence.*;
 
 @Entity
+@Table(name="USER_DTO")
 public class UserDTO {
 
     //컬럼이 not null일때 int
@@ -16,6 +17,10 @@ public class UserDTO {
     private String name;
     @Column(name = "PWD")
     private String pwd;
+
+    @Column(name="role")
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
 
     public int getUid() {
         return uid;

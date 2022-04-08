@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "POST_DTO")
 public class PostDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

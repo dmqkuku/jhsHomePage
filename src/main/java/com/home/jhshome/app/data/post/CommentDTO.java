@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "COMMENT_DTO")
 public class CommentDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

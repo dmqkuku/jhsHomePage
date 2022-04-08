@@ -4,6 +4,7 @@ plugins {
     id 'java'
 }
 
+
 group = 'com.home'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
@@ -11,7 +12,8 @@ sourceCompatibility = '11'
 repositories {
     mavenCentral()
 }
-
+// vulnerability
+// implementation 'io.jsonwebtoken:jjwt:0.9.1'
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -19,11 +21,60 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-    runtimeOnly 'com.h2database:h2'
+    implementation 'com.auth0:java-jwt:3.19.1'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
+def frontendDir = "$projectDir/frontend"
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["$projectDir/src/main/resources"]
+        }
+    }
+}
+
+processResources {
+    dependsOn "copyReactBuildFiles"
+}
+
+task installReact(type : Exec){
+    workingDir "$frontendDir"
+    inputs.dir "$frontendDir"
+    group = BasePlugin.BUILD_GROUP
+    if(System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")){
+        commandLine "npm.cmd", "audit", "fix"
+        commandLine "npm.cmd", "install"
+    }
+    else{
+        commandLine "npm", "audit", "fix"
+        commandLine "npm", "install"
+    }
+}
+task buildReact(type : Exec){
+    dependsOn "installReact"
+    workingDir "$frontendDir"
+    inputs.dir "$frontendDir"
+    group = BasePlugin.BUILD_GROUP
+    if(System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")){
+        commandLine "npm.cmd", "run-script", "build"
+    }
+    else{
+        commandLine "npm", "run-script", "build"
+    }
+}
+task copyReactBuildFiles(type : Copy){
+    dependsOn "buildReact"
+    from "$frontendDir/build"
+    into "$projectDir/src/main/resources/static"
+}
+
