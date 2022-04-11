@@ -45,4 +45,12 @@ public class UserDTO {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

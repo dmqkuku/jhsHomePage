@@ -1,18 +1,63 @@
 package com.home.jhshome.config;
 
+import com.home.jhshome.app.data.user.Role;
+import com.home.jhshome.app.data.user.UserDTO;
+import com.home.jhshome.app.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+
+//https://www.toptal.com/spring/spring-security-tutorial
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityWebConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserService userService;
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return new CustomAuthEntryPoint();
+    }
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Autowired
+    public SpringSecurityWebConfig(UserService userService){
+        this.userService = userService;
+    }
+
+    private UserDetails convertUserInfo2UserDetails(List<? extends UserDTO> list){
+        // assert 가 거짓이 되면 에러!~
+        // elem supposed to be one
+        assert(list.size() == 1);
+
+        var userInfo = list.get(0);
+
+        List<CustomGrantedAuthority> authList = new ArrayList<>();
+        authList.add(new CustomGrantedAuthority(userInfo.getRole().name()));
+        UserDetails resultDetails = new User(userInfo.getName(), userInfo.getPwd(), authList);
+
+        return resultDetails;
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
+        auth.userDetailsService(username -> convertUserInfo2UserDetails(userService.findUserDTOByNameEquals(username)));
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -20,11 +65,13 @@ public class SpringSecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAuthority(Role.USER.name())
+                .antMatchers("/sa/**").hasAuthority(Role.SUPER_ADMIN.name())
+                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .antMatchers("/home/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthEntryPoint()).accessDeniedHandler(new CustomAccessDeniedHandler());
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler());
 
     }
 }
