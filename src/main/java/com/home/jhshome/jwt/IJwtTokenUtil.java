@@ -11,6 +11,6 @@ public interface IJwtTokenUtil {
 
     public boolean isTokenExpired(String token);
 
-    public boolean isValidToken(String token);
+    public boolean isValidToken(String token, UserDetails userDetails);
 
 }
