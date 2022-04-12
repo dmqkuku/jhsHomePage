@@ -9,7 +9,7 @@ public class UserDTO {
     //컬럼이 not null일때 int
     //물론 조인 걸다가 값이 null로 떨어질 수도 있다.
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "UID", nullable = false, unique = true)
     private Integer uid;
 
@@ -18,8 +18,8 @@ public class UserDTO {
     @Column(name = "PWD")
     private String pwd;
 
-    @Column(name="role")
-    @Enumerated(EnumType.ORDINAL)
+    @Column(name="ROLE")
+    @Enumerated(value = EnumType.ORDINAL)
     private Role role;
 
     public int getUid() {
@@ -27,7 +27,7 @@ public class UserDTO {
     }
 
     public void setUid(int uid) {
-        this.uid = uid;
+          this.uid = uid;
     }
 
     public String getName() {

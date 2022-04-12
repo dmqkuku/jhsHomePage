@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WELCOME</title>
+    <script th:src="@{/js/scripts.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css"/>
+</head>
+<body>
+    <div class="row justify-content-center align-items-center" id="mainNav">
+        <div class=" col-3">
+            <div class="card">
+                <div class="col-12" data-target="date">
+
+                </div>
+                <div class="col-12" data-target="heartbeats">
+
+                </div>
+                <div class="col-12">
+                    <h3>Welcome!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+const dateDisplay = document.querySelector("div[data-target=date]");
+const heartbeats = document.querySelector("div[data-target=heartbeats]");
+
+const socket = new WebSocket("ws://192.168.1.14:8080/publicSpace/welcome/ws");
+socket.onerror = function(e){
+    heartbeats.textContent = "Disconnected!";
+}
+socket.onclose = function(e){
+    heartbeats.textContent = "Disconnected!";
+}
+socket.onmessage = function(e) {
+    const data = e.data;
+    console.log(data);
+}
+socket.onopen = function(e){
+    socket.send(`First Message ${new Date()}`)
+}
+</script>
+</html>

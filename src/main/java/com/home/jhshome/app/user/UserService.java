@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface UserService extends JpaRepository<UserDTO, Integer> {
-    List<UserDTO> findUserDTOByNameEquals(@NonNull String name);
+    Optional<UserDTO> findUserDTOByNameEquals(@NonNull String name);
 
-    List<UserDTO> findUserDTOByUidEquals(@NonNull Integer uid);
+    Optional<UserDTO> findUserDTOByUidEquals(@NonNull Integer uid);
+
 }

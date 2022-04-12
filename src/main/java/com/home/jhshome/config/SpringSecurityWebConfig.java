@@ -19,6 +19,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //https://www.toptal.com/spring/spring-security-tutorial
 @Configuration
@@ -41,18 +42,18 @@ public class SpringSecurityWebConfig extends WebSecurityConfigurerAdapter {
         this.userService = userService;
     }
 
-    private UserDetails convertUserInfo2UserDetails(List<? extends UserDTO> list){
+    private UserDetails convertUserInfo2UserDetails(Optional<? extends UserDTO> optional){
         // assert 가 거짓이 되면 에러!~
         // elem supposed to be one
-        assert(list.size() == 1);
 
-        var userInfo = list.get(0);
+        assert optional.isPresent();
+
+        var userInfo = optional.get();
 
         List<CustomGrantedAuthority> authList = new ArrayList<>();
         authList.add(new CustomGrantedAuthority(userInfo.getRole().name()));
-        UserDetails resultDetails = new User(userInfo.getName(), userInfo.getPwd(), authList);
 
-        return resultDetails;
+        return new User(userInfo.getName(), userInfo.getPwd(), authList);
     }
 
     @Override
@@ -69,6 +70,9 @@ public class SpringSecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sa/**").hasAuthority(Role.SUPER_ADMIN.name())
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .antMatchers("/home/**").permitAll()
+                .antMatchers("/publicSpace/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler());

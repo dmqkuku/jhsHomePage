@@ -1,5 +1,8 @@
 package com.home.jhshome;
 
+import com.home.jhshome.app.data.user.Role;
+import com.home.jhshome.app.data.user.UserDTO;
+import com.home.jhshome.app.user.UserService;
 import com.home.jhshome.jwt.JwtTokenUtil;
 import org.aspectj.bridge.Message;
 import org.junit.jupiter.api.Test;
@@ -21,8 +24,11 @@ import java.util.List;
 @SpringBootTest
 class JhsHomeApplicationTests {
 
+//    @Autowired
+//    private JwtTokenUtil jwtTokenUtil;
+
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private UserService userService;
 
     @Test
     void contextLoads() {
@@ -36,13 +42,30 @@ class JhsHomeApplicationTests {
         System.out.println(encodedPwd);
     }
 
+
     @Test
-    void doJwtTokenTestForAuth0(){
-        final String username = "sa";
-        UserDetails userDetails = new User("sa", "1234", new ArrayList<>());
-        String jwtToken = jwtTokenUtil.doGenerateToken(userDetails);
-        System.out.println(jwtToken);
+    void doSaveTest(){
+        UserDTO user = new UserDTO();
+        user.setName("jang");
+        user.setPwd("$2a$10$kr7HpMgkg4yL4VYkmKciGOaZdwm2578CgEvL4qVpneoNEoyWYzR06");
+        user.setRole(Role.SUPER_ADMIN);
+        user.setUid(1);
+
+        userService.save(user);
     }
+
+
+    void doUserServiceTest(){
+
+    }
+
+//    @Test
+//    void doJwtTokenTestForAuth0(){
+//        final String username = "sa";
+//        UserDetails userDetails = new User("sa", "1234", new ArrayList<>());
+//        String jwtToken = jwtTokenUtil.doGenerateToken(userDetails);
+//        System.out.println(jwtToken);
+//    }
 
 
  /*   @Test
