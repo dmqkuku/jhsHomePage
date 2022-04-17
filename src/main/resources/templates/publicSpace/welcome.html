@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>WELCOME</title>
-    <script th:src="@{/js/scripts.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css"/>
+    <script th:src="@{/js/scripts.js}" type="javascript"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
     <div class="row justify-content-center align-items-center" id="mainNav">
@@ -27,7 +27,7 @@
 const dateDisplay = document.querySelector("div[data-target=date]");
 const heartbeats = document.querySelector("div[data-target=heartbeats]");
 
-const socket = new WebSocket("ws://192.168.1.14:8080/publicSpace/welcome/ws");
+const socket = new WebSocket("ws://127.0.0.1:8080/publicSpace/welcome/ws");
 socket.onerror = function(e){
     heartbeats.textContent = "Disconnected!";
 }
