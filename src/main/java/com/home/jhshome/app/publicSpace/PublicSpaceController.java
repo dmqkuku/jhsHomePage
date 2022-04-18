@@ -4,6 +4,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
@@ -12,14 +13,20 @@ import java.util.Date;
 @RequestMapping("/publicSpace")
 public class PublicSpaceController {
 
-    @RequestMapping("/welcome")
+    @GetMapping("/welcome")
     public String welcome(Model model){
 
         return "publicSpace/welcome";
     }
-    @MessageMapping("/welcome/ws")
-    @SendTo("publicSpace/welcome")
-    public WsResponse welcomewe(){
+
+    @GetMapping("/login")
+    public String loginPage(){
+
+        return "publicSpace/login";
+    }
+   /* @MessageMapping("/welcome/ws")
+    @SendTo("/publicSpace/welcome")
+    public WsResponse welcomeWs(){
         return new WsResponse(new Date(), "Welcome! to WS!");
     }
     private class WsResponse{
@@ -30,6 +37,6 @@ public class PublicSpaceController {
             this.serverTime = serverTime;
             this.msg = msg;
         }
-    }
+    }*/
 
 }

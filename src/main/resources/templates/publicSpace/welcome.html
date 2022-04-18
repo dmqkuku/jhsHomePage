@@ -5,30 +5,61 @@
     <title>WELCOME</title>
     <script th:src="@{/js/scripts.js}" type="javascript"></script>
     <link type="text/css" rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <Style>
+        html,
+        body{
+            width: 100%;
+            height : 100%;
+        }
+        .page-wrapper {
+            width : 100%;
+            height : 100%;
+        }
+        div.h100w100{
+            width : 100%;
+            height : 100%;
+        }
+
+        .m0a {
+            margin : 0 auto;
+        }
+        .mbta {
+            margin-bottom: auto;
+            margin-top: auto;
+        }
+    </Style>
 </head>
 <body>
-    <div class="row justify-content-center align-items-center" id="mainNav">
-        <div class=" col-3">
-            <div class="card">
-                <div class="col-12" data-target="date">
+    <section class="page-wrapper d-flex">
+        <div class="row justify-content-center align-items-center h100w100" id="mainNav">
+            <div class=" col-3">
+                <div class="card">
+                    <div class="col-12" data-target="date">
 
-                </div>
-                <div class="col-12" data-target="heartbeats">
+                    </div>
+                    <div class="col-12" data-target="heartbeats">
 
-                </div>
-                <div class="col-12">
-                    <h3>Welcome!</h3>
+                    </div>
+                    <div class="col-12">
+                        <h3>Welcome!</h3>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </body>
 <script>
 const dateDisplay = document.querySelector("div[data-target=date]");
 const heartbeats = document.querySelector("div[data-target=heartbeats]");
 
-const socket = new WebSocket("ws://127.0.0.1:8080/publicSpace/welcome/ws");
+const socket = new WebSocket("ws://127.0.0.1:8080/ws");
+//const socketJs = new SockJS("/ws/publicSpace/welcome");
+//const stomp = Stomp.over(socketJs);
+
+
+
 socket.onerror = function(e){
+    console.log(e);
     heartbeats.textContent = "Disconnected!";
 }
 socket.onclose = function(e){
@@ -37,8 +68,15 @@ socket.onclose = function(e){
 socket.onmessage = function(e) {
     const data = e.data;
     console.log(data);
+    setTimeout(function(){
+        heartbeats.textContent = "Beat!";
+        socket.send("Message from Client");
+    }, 1000);
+    heartbeats.textContent = "Rest!"
+    dateDisplay.textContent = data;
 }
 socket.onopen = function(e){
+
     socket.send(`First Message ${new Date()}`)
 }
 </script>

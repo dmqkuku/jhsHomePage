@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WELCOME</title>
+    <script th:src="@{/js/scripts.js}" type="javascript"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <Style>
+        html,
+        body{
+            width: 100%;
+            height : 100%;
+        }
+        .page-wrapper {
+            width : 100%;
+            height : 100%;
+        }
+        div.h100w100{
+            width : 100%;
+            height : 100%;
+        }
+
+        .m0a {
+            margin : 0 auto;
+        }
+        .mbta {
+            margin-bottom: auto;
+            margin-top: auto;
+        }
+        .ml-02r {
+            margin-left : 0.2rem;
+        }
+    </Style>
+</head>
+<body>
+    <section class="page-wrapper d-flex">
+        <form id="_login" name="loginForm">
+            <div class="row justify-content-center align-items-center h100w100" id="mainNav">
+                <div class=" col-3">
+                    <div class="card">
+                        <div class="col-12" data-target="date">
+
+                        </div>
+                        <div class="col-12" data-target="heartbeats">
+
+                        </div>
+                        <div class="col-12">
+                            <h3>Welcome!</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                name :
+                            </span>
+                        </div>
+                        <input type="text" name="name"/>
+                    </div>
+                    <div class="input-group mt-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                PWD  :
+                            </span>
+                        </div>
+                        <input type="password" name="pwd" class="ml-02r"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</body>
+<script>
+
+
+</script>
+</html>

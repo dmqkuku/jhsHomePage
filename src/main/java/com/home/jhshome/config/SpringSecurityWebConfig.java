@@ -73,6 +73,7 @@ public class SpringSecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/publicSpace/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/css/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler());

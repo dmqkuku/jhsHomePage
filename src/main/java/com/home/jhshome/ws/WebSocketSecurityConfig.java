@@ -6,13 +6,13 @@ import org.springframework.security.config.annotation.web.socket.AbstractSecurit
 
 
 //https://docs.spring.io/spring-security/reference/servlet/integrations/websocket.html
-@Configuration
-public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
-
-    @Override
-    protected void configureInbound(MessageSecurityMetadataSourceRegistry messages){
-        messages.nullDestMatcher().authenticated()
-                .simpDestMatchers("/publicSpace/welcome/ws").permitAll()
-                .anyMessage().denyAll();
-    }
-}
+//@Configuration
+//public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
+//
+//    @Override
+//    protected void configureInbound(MessageSecurityMetadataSourceRegistry messages){
+//        messages.nullDestMatcher().authenticated()
+//                .simpDestMatchers("/**").permitAll()
+//                .anyMessage().denyAll();
+//    }
+//}
