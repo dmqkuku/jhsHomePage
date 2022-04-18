@@ -16,11 +16,15 @@ public class PublicSpaceController {
     @GetMapping("/welcome")
     public String welcome(Model model){
 
+
+
         return "publicSpace/welcome";
     }
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage(Model model){
+
+        model.addAttribute("loginUrl", "/user/login");
 
         return "publicSpace/login";
     }

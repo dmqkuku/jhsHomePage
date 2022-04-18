@@ -28,7 +28,7 @@
             margin-top: auto;
         }
         .ml-02r {
-            margin-left : 0.2rem;
+            margin-left : 0.2rem !important;
         }
     </Style>
 </head>
@@ -47,32 +47,45 @@
                         <div class="col-12">
                             <h3>Welcome!</h3>
                         </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="input-group">
-                        <div class="input-group-append">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="input-group-append">
                             <span class="input-group-text">
                                 name :
                             </span>
-                        </div>
-                        <input type="text" name="name"/>
-                    </div>
-                    <div class="input-group mt-3">
-                        <div class="input-group-append">
+                                </div>
+                                <input type="text" name="name"/>
+                            </div>
+                            <div class="input-group mt-3">
+                                <div class="input-group-append">
                             <span class="input-group-text">
                                 PWD  :
                             </span>
+                                </div>
+                                <input type="password" name="pwd" class="ml-02r"/>
+                            </div>
                         </div>
-                        <input type="password" name="pwd" class="ml-02r"/>
                     </div>
                 </div>
             </div>
         </form>
     </section>
 </body>
-<script>
+<script th:inline="javascript">
+document.addEventListener("keypress",  function(e){
+    if(e.code === 'Enter'){
+        fnLogin("loginForm");
+    }
+})
 
+function fnLogin(formname){
+    const loginform = document.querySelector(`form[name=${formname}]`);
+    loginform.setAttribute("method", "post");
+    /*<![CDATA[*/
+    const loginUrl = /*[[${loginUrl}]]*/
+    loginform.setAttribute("action", loginUrl);
+    /*]]>*/
 
+}
 </script>
 </html>
