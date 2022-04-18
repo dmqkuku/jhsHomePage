@@ -16,5 +16,4 @@ public class PublicSpaceController {
 
         return "publicSpace/welcome";
     }
-
 }
