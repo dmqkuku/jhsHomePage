@@ -54,9 +54,17 @@ class JhsHomeApplicationTests {
         userService.save(user);
     }
 
-
-    void doUserServiceTest(){
-
+    @Test
+    void doEnumTest (){
+        System.out.println("START!!");
+        System.out.println(Ensemble.WEIRD_QUARTET.ordinal());
+        System.out.println(Ensemble.WEIRD_QUARTET.numOfMusicians());
+    }
+    public enum Ensemble{
+        SOLO(1), DUET(2), TRIO(3), WEIRD_QUARTET(8);
+        private final int numOfMusicians;
+        Ensemble(int size) {this.numOfMusicians = size;}
+        public int numOfMusicians() {return this.numOfMusicians;}
     }
 
 //    @Test
